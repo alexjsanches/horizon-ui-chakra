@@ -1,26 +1,34 @@
 [
   {
-    "name":"Marketplace",
+    "name": "Cliente 1",
     "status": "Approved",
-    "date": "24.Jan.2021",
-    "progress": 75.5  
+    "description": "Contrato enviado",
+    "date": "24/01/2023",
+    "progress": 75.5,
+    "statusColor": "green"
   },
   {
-    "name":"Marketplace",
+    "name": "Cliente 2",
     "status": "Disable",
-    "date": "30.Dec.2021",
-    "progress": 25.5  
+    "description": "Cotação declinada",
+    "date": "30/12/2022",
+    "progress": 25.5,
+    "statusColor": "red"
   },
   {
-    "name":"Marketplace",
+    "name": "Cliente 3",
     "status": "Error",
-    "date": "20.May.2021",
-    "progress": 90  
+    "description": "Aguardando precificação",
+    "date": "20/05/2023",
+    "progress": 90,
+    "statusColor": "orange"
   },
   {
-    "name":"Marketplace",
-    "status": "Approved",
-    "date": "12.Jul.2021",
-    "progress": 50.5  
+    "name": "Cliente 4",
+    "status": "Pending",
+    "description": "Aguardando retorno cliente",
+    "date": "12/07/2023",
+    "progress": 50.5,
+    "statusColor": "gray"
   }
 ]

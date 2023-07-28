@@ -2,7 +2,7 @@ import {
   Flex,
   Table,
   Progress,
-  Icon,
+  Badge, // Importe o componente Badge do Chakra UI
   Tbody,
   Td,
   Text,
@@ -24,7 +24,8 @@ import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 
 // Assets
-import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
+// ...imports e outras partes do código...
+
 export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
 
@@ -65,7 +66,7 @@ export default function ColumnsTable(props) {
           fontSize='22px'
           fontWeight='700'
           lineHeight='100%'>
-          Complex Table
+          Visão Geral
         </Text>
         <Menu />
       </Flex>
@@ -98,50 +99,28 @@ export default function ColumnsTable(props) {
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
                   let data = "";
-                  if (cell.column.Header === "NAME") {
+                  if (cell.column.id === "name") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "STATUS") {
+                  } else if (cell.column.id === "status") {
                     data = (
-                      <Flex align='center'>
-                        <Icon
-                          w='24px'
-                          h='24px'
-                          me='5px'
-                          color={
-                            cell.value === "Approved"
-                              ? "green.500"
-                              : cell.value === "Disable"
-                              ? "red.500"
-                              : cell.value === "Error"
-                              ? "orange.500"
-                              : null
-                          }
-                          as={
-                            cell.value === "Approved"
-                              ? MdCheckCircle
-                              : cell.value === "Disable"
-                              ? MdCancel
-                              : cell.value === "Error"
-                              ? MdOutlineError
-                              : null
-                          }
-                        />
-                        <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value}
-                        </Text>
-                      </Flex>
+                      <Badge
+                        colorScheme={cell.row.original.statusColor}
+                        fontSize='sm'
+                        fontWeight='700'>
+                        {cell.row.original.description}
+                      </Badge>
                     );
-                  } else if (cell.column.Header === "DATE") {
+                  } else if (cell.column.id === "date") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "PROGRESS") {
+                  } else if (cell.column.id === "progress") {
                     data = (
                       <Flex align='center'>
                         <Progress

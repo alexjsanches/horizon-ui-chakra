@@ -21,6 +21,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "framer-motion": "^4.1.17",
+    "node-fetch": "^3.3.2",
     "react": "17.0.2",
     "react-apexcharts": "1.4.0",
     "react-calendar": "^3.7.0",
@@ -38,12 +39,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "sitemap": "babel-node ./sitemap-builder.js"
+    "sitemap": "babel-node ./sitemap-builder.js",
+    "build": "babel src -d dist"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"
@@ -67,6 +68,17 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.22.9",
+    "@babel/core": "^7.22.9",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
     "gh-pages": "^3.2.3"
+  },
+
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   }
-}
+  
+

@@ -1,65 +1,61 @@
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// Chakra imports
-import { Box, SimpleGrid } from "@chakra-ui/react";
-import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
-import CheckTable from "views/admin/dataTables/components/CheckTable";
-import ColumnsTable from "views/admin/dataTables/components/ColumnsTable";
+import { Box, SimpleGrid, Skeleton } from "@chakra-ui/react";
 import ComplexTable from "views/admin/dataTables/components/ComplexTable";
 import {
-  columnsDataDevelopment,
-  columnsDataCheck,
-  columnsDataColumns,
   columnsDataComplex,
 } from "views/admin/dataTables/variables/columnsData";
-import tableDataDevelopment from "views/admin/dataTables/variables/tableDataDevelopment.json";
-import tableDataCheck from "views/admin/dataTables/variables/tableDataCheck.json";
-import tableDataColumns from "views/admin/dataTables/variables/tableDataColumns.json";
 import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
-import React from "react";
+const { fetchJSMData } = require('./api/jsm');
+import React, { useEffect, useState } from "react";
 
 export default function Settings() {
+  // Estado para controlar o carregamento dos dados
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiData, setApiData] = useState(null); // Estado para armazenar os dados da API
+
+  useEffect(() => {
+    // Simulando um atraso de 1 segundo para carregar os dados
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    // Limpar o timer quando o componente é desmontado
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Função para acionar a chamada de API
+  const handleAPICall = async () => {
+    try {
+      setIsLoading(true); // Define o estado para true para exibir o Skeleton novamente
+      const data = await fetchJSMData(); // Chama a função para obter os dados da API
+      setApiData(data); // Armazena os dados da API no estado
+      setIsLoading(false); // Define o estado para false para esconder o Skeleton
+    } catch (error) {
+      console.error('API error:', error);
+      setIsLoading(false); // Caso ocorra algum erro, também define o estado para false para esconder o Skeleton
+    }
+  };
+
   // Chakra Color Mode
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <SimpleGrid
-        mb='20px'
-        columns={{ sm: 1, md: 2 }}
-        spacing={{ base: "20px", xl: "20px" }}>
-        <DevelopmentTable
-          columnsData={columnsDataDevelopment}
-          tableData={tableDataDevelopment}
-        />
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <ColumnsTable
-          columnsData={columnsDataColumns}
-          tableData={tableDataColumns}
-        />
-        <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
-        />
-      </SimpleGrid>
+      {/* Verificar se os dados estão carregados */}
+      {isLoading ? (
+        // Se estiver carregando, renderizar o Skeleton dentro da Box
+        <Box py="20px">
+          <Skeleton height="40px" mb="20px" />
+          <Skeleton height="40px" mb="20px" />
+          <Skeleton height="40px" mb="20px" />
+          <Skeleton height="40px" mb="20px" />
+          <Skeleton height="40px" mb="20px" />
+          <Skeleton height="40px" mb="20px" />
+        </Box>
+      ) : (
+        // Se os dados estiverem carregados, renderizar a tabela
+        <ComplexTable columnsData={columnsDataComplex} tableData={apiData || tableDataComplex} />
+      )}
+
+      {/* Botão para acionar a chamada de API */}
+      <button onClick={handleAPICall}>Chamar API</button>
     </Box>
   );
 }
